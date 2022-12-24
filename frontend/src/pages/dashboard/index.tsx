@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import DashboardLayout from 'src/layouts';
-import { SectionInicio } from 'src/section/authenticated/dashboard/inicio/Home';
+import { SectionInicio } from 'src/section/authenticated/dashboard/inicio/SectionInicio';
 
 PageDashboard.getLayout = function getLayout(page: React.ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
