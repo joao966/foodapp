@@ -7,35 +7,44 @@ import { Box, styled } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-type MainStyleProps = {
-  collapseClick: boolean;
-};
-
-// ----------------------------------------------------------------------
-
 type Props = {
   children: ReactNode;
+  title?: string;
 };
+
+const RootStyle = styled('header')(({ theme }) => ({
+  display: 'flex',
+  flexFlow: 'column',
+  height: '100vh',
+}));
 
 const MainStyle = styled('main')(({ theme }) => ({
   flexGrow: 1,
-  paddingTop: 64,
-  paddingBottom: 64,
+  flexBasis: 'auto',
+  paddingTop: 40,
+  paddingBottom: 40,
+  minHeight: 'auto',
 }));
 
-export default function DashboardLayout({ children }: Props) {
+const FooterStyle = styled('footer')(({ theme }) => ({
+  flexGrow: 0,
+  width: '100%',
+}));
+
+export default function DashboardLayout({ children, title }: Props) {
   return (
-    <React.Fragment>
-      <ComponentNavbar pages={configNavbarTabs} />
-      <Box>
-        <MainStyle>{children}</MainStyle>
+    <RootStyle>
+      <Box component={'header'} sx={{ flexGrow: 0, flexBasis: 'auto' }}>
+        <ComponentNavbar title={title} pages={configNavbarTabs} />
       </Box>
-      {/* <Box sx={{ bottom: 0, left: 0, position: 'fixed', width: '100%' }}>
+      <MainStyle>{children}</MainStyle>
+      <FooterStyle
+        sx={{
+          display: { xs: 'none', md: 'block' },
+        }}
+      >
         <Footer />
-      </Box> */}
-      <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
-        <Footer />
-      </Box>
-    </React.Fragment>
+      </FooterStyle>
+    </RootStyle>
   );
 }
