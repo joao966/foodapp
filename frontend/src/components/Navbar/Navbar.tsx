@@ -1,5 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -14,6 +14,7 @@ import useConfigTheme from 'src/hooks/useTheme';
 
 interface Props {
   pages: TypesConfigNavbar[];
+  title?: string;
 }
 
 const BootstrapButton = styled(Button)({
@@ -55,23 +56,13 @@ const RootStyle = styled(Box, {
   }),
 }));
 
-const ComponentNavbar = ({ pages }: Props) => {
+const ComponentNavbar = ({ pages, title }: Props) => {
   const theme = useTheme();
   const { onToggleMode } = useConfigTheme();
 
   return (
-    <RootStyle sx={{ display: 'flex' }}>
-      <Box sx={{ flexGrow: 1, mr: 2, justifyContent: 'end', display: 'flex', alignItems: 'center' }}>
-        {pages.map((page: TypesConfigNavbar) => (
-          <Link key={page?.href} href={page?.href}>
-            <BootstrapButton>{page?.text}</BootstrapButton>
-          </Link>
-        ))}
-      </Box>
-      <IconButton sx={{ ml: 1 }} onClick={onToggleMode} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
-      {/* <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+    <RootStyle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -81,7 +72,32 @@ const ComponentNavbar = ({ pages }: Props) => {
         >
           <MenuIcon />
         </IconButton>
-      </Box> */}
+      </Box>
+      <Box>
+        <Typography variant="h5" ml={2}>
+          {title}
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex' }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            mr: 2,
+            justifyContent: 'end',
+            display: { xs: 'none', md: 'flex' },
+            alignItems: 'center',
+          }}
+        >
+          {pages.map((page: TypesConfigNavbar) => (
+            <Link key={page?.href} href={page?.href}>
+              <BootstrapButton>{page?.text}</BootstrapButton>
+            </Link>
+          ))}
+        </Box>
+        <IconButton sx={{ ml: 1 }} onClick={onToggleMode} color="inherit">
+          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Box>
     </RootStyle>
   );
 };
