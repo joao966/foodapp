@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 // @mui
 import { Footer } from '@Components/Footer';
 import { ComponentNavbar } from '@Components/Navbar';
-import { configNavbarTabs } from '@Config/dashboard/index';
+import { configNavbar } from '@Config/dashboard/Navbar';
 import { Box, styled } from '@mui/material';
 
 // ----------------------------------------------------------------------
@@ -35,7 +35,7 @@ export default function DashboardLayout({ children, title }: Props) {
   return (
     <RootStyle>
       <Box component={'header'} sx={{ flexGrow: 0, flexBasis: 'auto' }}>
-        <ComponentNavbar title={title} pages={configNavbarTabs} />
+        <ComponentNavbar title={title} pages={configNavbar} />
       </Box>
       <MainStyle>{children}</MainStyle>
       <FooterStyle
