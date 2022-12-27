@@ -1,6 +1,8 @@
-require('dotenv').config();
+import { EntityTarget, DataSource } from "typeorm";
 
-class ConfigService {
+require("dotenv").config();
+
+export class ConfigServiceClass {
   constructor(private env: { [k: string]: string | undefined }) {}
 
   public getValue(key: string, throwOnMissing = true): string {
@@ -11,46 +13,51 @@ class ConfigService {
     return value;
   }
 
-  public ensureValues(keys: string[]) {
-    keys.forEach((k) => this.getValue(k, true));
-    return this;
-  }
-
   public getPort() {
-    return this.getValue('PORT', true);
+    return this.getValue("PORT", true);
   }
 
   public isProduction() {
-    const mode = this.getValue('MODE', false);
-    return mode != 'DEV';
+    const mode = this.getValue("MODE", false);
+    return mode != "DEV";
   }
 
-  public getTypeOrmConfig(forJsonFile = false): any {
-    const migrationsPath = 'src/db/migrations/*.' + (forJsonFile ? 'ts' : 'js');
+  public getTypeOrmConfigDefault(forJsonFile = false): any {
+    const migrationsPath = "src/db/migrations/*." + (forJsonFile ? "ts" : "js");
 
     return {
-      type: 'postgres',
-      host: this.getValue('POSTGRES_HOST'),
-      port: parseInt(this.getValue('POSTGRES_PORT')),
-      username: this.getValue('POSTGRES_USER'),
-      password: this.getValue('POSTGRES_PASSWORD'),
-      database: this.getValue('POSTGRES_DATABASE'),
+      type: "postgres",
+      host: this.getValue("POSTGRES_HOST"),
+      port: parseInt(this.getValue("POSTGRES_PORT")),
+      username: this.getValue("POSTGRES_USER"),
+      password: this.getValue("POSTGRES_PASSWORD"),
+      database: this.getValue("POSTGRES_DATABASE"),
       synchronize: false,
-      entities: ['**/*.entity.js'],
-      migrationsTableName: 'db_migrations',
+      entities: ["**/*.entity.js"],
+      migrationsTableName: "db_migrations",
       migrations: [migrationsPath],
       cli: {
-        migrationsDir: 'src/db/migrations',
-        entitiesDir: 'src/db/models',
+        migrationsDir: "src/db/migrations",
+        entitiesDir: "src/db/models",
       },
     };
   }
+
+  public async dinamicConnection(database: string) {
+    return new DataSource({
+      ...this.getTypeOrmConfigDefault(),
+      database: database,
+    });
+  }
+
+  public async getEntityDinamic<T = any>(
+    entity: EntityTarget<T>,
+    database: string
+  ) {
+    const connection = await this.dinamicConnection(database);
+    
+    return connection.initialize();
+  }
 }
 
-export const configService = new ConfigService(process.env).ensureValues([
-  'POSTGRES_HOST',
-  'POSTGRES_PORT',
-  'POSTGRES_USER',
-  'POSTGRES_PASSWORD',
-  'POSTGRES_DATABASE',
-]);
+export const ConfigService = new ConfigServiceClass(process.env)
