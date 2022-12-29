@@ -50,7 +50,6 @@ const data = [
 
 const SectionInicioChart = () => {
   const theme = useTheme();
-  console.log('theme: ', theme.palette.primary.main);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
