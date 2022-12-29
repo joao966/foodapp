@@ -27,7 +27,6 @@ function ConfigProvider({ children }: SettingsProviderProps) {
   const [settings, setSettings] = useState<SettingsValueProps>({
     themeMode: 'light',
   });
-  console.log('settings: ', settings);
 
   const toggleColorMode = () => {
     setSettings({
