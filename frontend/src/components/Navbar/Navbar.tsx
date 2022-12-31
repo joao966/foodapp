@@ -49,7 +49,7 @@ const RootStyle = styled(Box, {
 })(({ theme }) => ({
   boxShadow: 'none',
   height: 45,
-  background: 'silver',
+  background: theme.palette.primary.dark,
   zIndex: theme.zIndex.appBar + 1,
   transition: theme.transitions.create(['width', 'height'], {
     duration: theme.transitions.duration.shorter,

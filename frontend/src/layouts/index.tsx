@@ -21,7 +21,7 @@ const RootStyle = styled('header')(({ theme }) => ({
 const MainStyle = styled('main')(({ theme }) => ({
   flexGrow: 1,
   flexBasis: 'auto',
-  paddingTop: 40,
+  paddingTop: 10,
   paddingBottom: 40,
   minHeight: 'auto',
 }));
